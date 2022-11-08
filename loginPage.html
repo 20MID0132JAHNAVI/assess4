@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Login Form For Entrance Test</title>
+	<style>
+body{
+	margin: 0 auto;
+	background-image: url("vitbg.jpg");
+	background-repeat: no-repeat;
+	background-size: 100% 1000px;
+}
+
+.container{
+	width: 500px;
+	height: 450px;
+	text-align: center;
+	margin: 0 auto;
+	background-color: rgba(44, 62, 80,0.7);
+	margin-top: 160px;
+}
+
+.container img{
+	width: 150px;
+	height: 150px;
+	margin-top: -60px;
+}
+
+.form-input{
+	content: "\f007";
+	font-family: "FontAwesome";
+	padding-left: 2px;
+	padding-top: 40px;
+	position: absolute;
+	font-size: 25px;
+	color: #fff; 
+}
+
+input[type="text"], input[type="password"]{
+	margin-top: 30px;
+	margin-left: 70px;
+	height: 45px;
+	width: 300px;
+	font-size: 18px;
+	margin-bottom: 20px;
+	background-color: #fff;
+	padding-left: 40px;
+border-radius: 25px;
+}
+.form-input:nth-child(2)::before{
+	content: "\f023";
+}
+.btn-login{
+margin-top: 250px;
+	padding: 15px 25px;
+	border: none;
+	background-color: #0066FF;
+	color: #fff;
+font-weight:bold;
+cursor:pointer;
+border-radius: 25px;
+}
+</style>
+<script>
+function validateEmail() {
+let email = document.forms["quiz"]['email'].value;
+ if (email != "") {
+                let atpos = email.indexOf("@");
+                let domain = email.split("@")[1];
+                if (atpos < 1 || domain != "vitstudent.ac.in") {
+                     alert("Enter your VIT Email Address");
+                    return false;
+                }
+            }
+}
+</script>
+</head>
+<body>
+	<div class="container">
+	<img src="logo.png"/>
+		<form  id="quiz" name="quiz" method="post" onsubmit="return validateEmail()" action="instructions.html">
+			<div class="form-input">
+				<input type="text" name="email" id = "email" placeholder="Enter your VIT Email" required><br>
+				<input type="password" name="password" id = "password" placeholder="Enter your Password" required>
+				
+			</div>
+			<input type="submit" type="submit" value="LOGIN" class="btn-login"/>
+		</form>
+	</div>
+
+</body>
+</html>

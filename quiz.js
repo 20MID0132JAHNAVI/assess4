@@ -1,0 +1,147 @@
+const start_test = document.querySelector(".start_btn button");
+const instructions_box = document.querySelector(".instructions_box");
+const exit_btn = instructions_box.querySelector(".buttons .exit");
+const start_btn = instructions_box.querySelector(".buttons .start");
+const test_box = document.querySelector(".test_box");
+const timeCount = test_box.querySelector(".timer .timer_min");
+const timerLine = test_box.querySelector("header .timer_line");
+const timerOff = test_box.querySelector("header .timer_left");
+
+const que_list = document.querySelector(".answer_list");
+
+start_test.onclick = ()=>{
+instructions_box.classList.add("activeInfo");
+}
+
+exit_btn.onclick = ()=>{
+instructions_box.classList.remove("activeInfo");
+}
+
+start_btn.onclick = ()=>{
+instructions_box.classList.remove("activeInfo");
+test_box.classList.add("activeQuiz");
+showQuestions(0);
+footerCounter(1);
+startTimer(900);
+startTimerLine(0);
+}
+
+const next_que = test_box.querySelector(".next_question");
+const result_box = document.querySelector(".result_box");
+
+
+let que_count = 0;
+let que_numb = 1;
+let counter;
+let widthValue = 0;
+let userScore = 0;
+
+next_que.onclick = ()=>{
+if(que_count < firstround.length - 1) {
+que_count++;
+que_numb++;
+showQuestions(que_count);
+footerCounter(que_numb);
+timerOff.textContent = "Time Left";
+} else {
+console.log('Round 1 Completed');
+next_que.innerHtml('Proceed to Round-2');
+}
+}
+
+function showQuestions(index) {
+const que_text = document.querySelector(".question");
+
+let que_question = '<span>' + firstround[index].numb + ". " + firstround[index].question + '</span>';
+let ans_list = '<div class="answer">' + firstround[index].options[0] + '<span></span></div>' +
+'<div class="answer">' + firstround[index].options[1] + '<span></span></div>' +
+'<div class="answer">' + firstround[index].options[2] + '<span></span></div>' +
+'<div class="answer">' + firstround[index].options[3] + '<span></span></div>' ;
+que_text.innerHTML = que_question;
+que_list.innerHTML = ans_list;
+const option = que_list.querySelectorAll(".answer");
+for (let i = 0; i < option.length; i++) {
+option[i].setAttribute("onclick", "optionsSelected(this)");
+}
+}
+
+
+
+function optionsSelected(answer) {
+console.log(answer);
+let userAnswer = answer.textContent;
+let correctAnswer = firstround[que_count].answer;
+let allOptions = que_list.children.length;
+
+answer.classList.add("correct");
+if (userAnswer == correctAnswer) {
+userScore += 1;
+console.log(userScore);
+} else {
+
+}
+
+for (let i = 0; i < allOptions; i++) {
+que_list.children[i].classList.add("disable");
+}
+
+}
+
+function startTimer(time) {
+counter = setInterval(timer, 1000);
+function timer() {
+timeCount.textContent = time;
+time--;
+if (time < 9) {
+let addZero = timeCount.textContent;
+timeCount.textContent = "0" + addZero;
+}
+if(time < 0) {
+clearInterval(counter);
+timeCount.textContent = "00";
+timerOff.textContent = "Time Out";
+showResultBox();
+}
+}
+}
+
+function startTimerLine(time) {
+counterLine = setInterval(timer, 1800);
+function timer() {
+time += 1;
+timerLine.style.width = time + "px";
+if(time > 549) {
+clearInterval(counterLine);
+}
+}
+}
+
+function showResultBox() {
+instructions_box.classList.remove("activeInfo");
+test_box.classList.remove("activeQuiz");
+result_box.classList.add("activeResult");
+const score = result_box.querySelector(".score");
+if (userScore >= 9) {
+let scoreTag = '<span>Congratulations, You got admission in VIT Vellore.</span>';
+score.innerHTML = scoreTag;
+}
+else if (userScore >= 7 && userScore < 9) {
+let scoreTag = '<span>Congratulations, You got admission in VIT Chennai.</span>';
+score.innerHTML = scoreTag;
+}
+else if (userScore >= 6 && userScore < 7) {
+let scoreTag = '<span>Congratulations, You got admission in VIT Amaravati.</span>';
+score.innerHTML = scoreTag;
+}
+else {
+let scoreTag = '<span>Sorry. Better luck next time.</span>';
+score.innerHTML = scoreTag;
+}
+}
+
+function footerCounter(index) {
+const footerCount = test_box.querySelector(".total_questions");
+let totalCounTag = ' <span><p>' + index + '</p>of<p>' + firstround.length + '</p>Questions</span>';
+footerCount.innerHTML = totalCounTag;
+}
+
